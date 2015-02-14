@@ -148,7 +148,7 @@ describe('cron', function () {
         done();
     });
 
-    it('startSchedule startJob sim', function (done) {
+    it('startSchedule startJob', function (done) {
    
         internals.defaults.plugins = {
             tacklebox: {

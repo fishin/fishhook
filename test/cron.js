@@ -1,5 +1,4 @@
 var Code = require('code');
-var Hapi = require('hapi');
 var Lab = require('lab');
 
 var Scheduler = require('../lib/index');

@@ -1,11 +1,17 @@
 var Code = require('code');
+var Hapi = require('hapi');
 var Lab = require('lab');
 
 var Scheduler = require('../lib/index');
 
 var internals = {
     defaults: {
-        dirPath: '/tmp/testfishhook'
+        dirPath: '/tmp/testfishhook',
+        tacklebox: {
+            job: {
+                dirPath: '/tmp/testfishhook/job',
+            }
+        }
     }
 };
 
@@ -68,17 +74,27 @@ describe('cron', function () {
     it('startScheduler schedule', function (done) {
 
         var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
-           id: 1,
-           name: 'schedule',
-           schedule: {
-               type: 'cron',
-               pattern: '* * * * * *'
+        var jobs = [
+           {
+               id: 1,
+               name: 'schedule',
+               schedule: {
+                   type: 'cron',
+                   pattern: '* * * * * *'
+               }
+           },
+           {
+               id: 2,
+               name: 'schedule',
+               schedule: {
+                   type: 'cron',
+                   pattern: '* * * * * *'
+               }
            }
-        }];
+        ];
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();
-        expect(schedules.length).to.equal(1);
+        expect(schedules.length).to.equal(2);
         done();
     });
 
@@ -93,17 +109,22 @@ describe('cron', function () {
     it('stopSchedule invalid', function (done) {
 
         var scheduler = new Scheduler(internals.defaults);
-        scheduler.stopSchedule(2);
+        scheduler.stopSchedule(3);
         var schedules = scheduler.getJobs();
-        expect(schedules.length).to.equal(1);
+        expect(schedules.length).to.equal(2);
         done();
     });
 
     it('stopSchedule schedule', function (done) {
 
         var scheduler = new Scheduler(internals.defaults);
-        scheduler.stopSchedule(1);
         var schedules = scheduler.getJobs();
+        expect(schedules.length).to.equal(2);
+        scheduler.stopSchedule(2);
+        schedules = scheduler.getJobs();
+        expect(schedules.length).to.equal(1);
+        scheduler.stopSchedule(1);
+        schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         done();
     });
@@ -128,64 +149,41 @@ describe('cron', function () {
         done();
     });
 
-/*
-    it('removeScheduler', function (done) {
-
-        var bait = new Bait(internals.defaults);
-        var jobs = bait.getJobs();
-        var jobId = jobs[0].id;
-        bait.removeSchedule(jobId);
-        var schedules = bait.getJobs();
-        expect(schedules.length).to.equal(0);
-        done();
-    });
-
-    it('initializeScheduler', function (done) {
-
-        var bait = new Bait(internals.defaults);
-        bait.initializeScheduler();
-        var schedules = bait.getJobs();
-        var jobs = bait.getJobs();
-        var jobId = jobs[0].id;
-        //console.log(schedules);
-        expect(schedules.length).to.equal(1);
-        expect(schedules[0].jobId).to.equal(jobId);
-        done();
-    });
-
-    it('updateJob', function (done) {
-
-        var config = {
-            schedule: {
-                type: 'none'
+    it('startSchedule startJob sim', function (done) {
+   
+        internals.defaults.plugins = {
+            tacklebox: {
+                startJob: function(jobId) {
+                              console.log('simulating startJob for ' + jobId);
+                          }
             }
         };
-        var bait = new Bait(internals.defaults);
-        var jobs = bait.getJobs();
-        var jobId = jobs[0].id;
-        var updateJob = bait.updateJob(jobId, config);
-        expect(updateJob.id).to.exist();
-        done();
+        var scheduler = new Scheduler(internals.defaults);
+        var jobs = [{
+           id: 1,
+           name: 'schedule',
+           schedule: {
+               type: 'cron',
+               pattern: '* * * * * *'
+           }
+        }];
+        scheduler.startScheduler(jobs);
+        var schedules = scheduler.getJobs();
+        expect(schedules.length).to.equal(1);
+        var intervalObj = setInterval(function() {
+
+            var log = console.log;
+
+            console.log = function (value) {
+
+                console.log = log;
+                clearInterval(intervalObj);
+                expect(value).to.equal('simulating startJob for 1');
+                scheduler.stopScheduler();
+                var schedules = scheduler.getJobs();
+                expect(schedules.length).to.equal(0);
+                done();
+            };
+        }, 1000);
     });
-
-    it('initializeScheduler none', function (done) {
-
-        var bait = new Bait(internals.defaults);
-        bait.initializeScheduler();
-        var schedules = bait.getJobs();
-        expect(schedules.length).to.equal(0);
-        done();
-    });
-
-    it('deleteJob', function (done) {
-
-        var bait = new Bait(internals.defaults);
-        var jobs = bait.getJobs();
-        var jobId = jobs[0].id;
-        bait.deleteJob(jobId);
-        jobs = bait.getJobs();
-        expect(jobs.length).to.equal(0);
-        done();
-    });
-*/
 });

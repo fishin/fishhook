@@ -17,7 +17,7 @@
   "author": "Lloyd Benson",
   "license": "MIT",
   "dependencies": {
-    "cron": "1.0.x",
+    "cron": "1.0.6",
     "hoek": "2.x.x"
   },
   "devDependencies": {

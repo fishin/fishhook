@@ -8,7 +8,7 @@ var internals = {
         dirPath: '/tmp/testfishhook',
         tacklebox: {
             job: {
-                dirPath: '/tmp/testfishhook/job',
+                dirPath: '/tmp/testfishhook/job'
             }
         }
     }
@@ -19,7 +19,7 @@ var expect = Code.expect;
 var describe = lab.describe;
 var it = lab.it;
 
-describe('cron', function () {    
+describe('cron', function () {
 
     it('startScheduler empty', function (done) {
 
@@ -143,13 +143,13 @@ describe('cron', function () {
         var schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
         scheduler.stopScheduler();
-        var schedules = scheduler.getJobs();
+        schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         done();
     });
 
     it('startSchedule startJob', function (done) {
-   
+
         internals.defaults.plugins = {
             tacklebox: {
                 startJob: function(jobId) {

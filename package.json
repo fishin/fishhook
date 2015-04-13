@@ -1,7 +1,7 @@
 {
   "name": "fishhook",
-  "version": "0.0.1",
-  "description": "scheduler utilities",
+  "version": "0.0.2",
+  "description": "scheduler utilities for ficion",
   "main": "index.js",
   "repository": {
     "type": "git",

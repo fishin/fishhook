@@ -150,11 +150,9 @@ describe('cron', function () {
 
     it('startSchedule startJob', function (done) {
 
-        internals.defaults.plugins = {
-            tacklebox: {
-                startJob: function(jobId) {
-                              console.log('simulating startJob for ' + jobId);
-                          }
+        internals.defaults = {
+            startJob: function(jobId) {
+                console.log('simulating startJob for ' + jobId);
             }
         };
         var scheduler = new Scheduler(internals.defaults);

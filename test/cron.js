@@ -151,7 +151,8 @@ describe('cron', function () {
     it('startSchedule startJob', function (done) {
 
         internals.defaults = {
-            startJob: function(jobId) {
+            startJob: function (jobId) {
+
                 console.log('simulating startJob for ' + jobId);
             }
         };
@@ -167,7 +168,7 @@ describe('cron', function () {
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
-        var intervalObj = setInterval(function() {
+        var intervalObj = setInterval(function () {
 
             var log = console.log;
 

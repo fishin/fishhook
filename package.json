@@ -2,7 +2,7 @@
   "name": "fishhook",
   "version": "0.0.3",
   "description": "scheduler utilities for ficion",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/fishin/fishhook"

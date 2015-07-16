@@ -11,8 +11,8 @@
     "node": ">=0.12.x"
   },
   "scripts": {
-    "test": "lab -a code -t 95 -v -m 60000 -L",
-    "json": "lab -a code -r json -t 100 -o lab.json -m 60000 -L"
+    "test": "lab -a code -t 100 -v -m 10000 -L",
+    "json": "lab -a code -r json -t 100 -o lab.json -m 10000 -L"
   },
   "author": "Lloyd Benson",
   "license": "MIT",

@@ -178,7 +178,7 @@ describe('cron', function () {
                 clearInterval(intervalObj);
                 expect(value).to.equal('simulating startJob for 1');
                 scheduler.stopScheduler();
-                var schedules = scheduler.getJobs();
+                schedules = scheduler.getJobs();
                 expect(schedules.length).to.equal(0);
                 done();
             };

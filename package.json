@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "lab -a code -t 100 -v -m 10000 -L -r json -o lab.json -r html -o lab.html -r console -o stdout -r console -o console.log",
-    "json": "lab -a code -t 100 -v -m 10000 -L"
+    "console": "lab -a code -t 100 -v -m 10000 -L"
   },
   "author": "Lloyd Benson",
   "license": "MIT",

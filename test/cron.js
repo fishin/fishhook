@@ -60,8 +60,8 @@ describe('cron', function () {
 
         var scheduler = new Scheduler(internals.defaults);
         var jobs = [{
-           id: 1,
-           name: 'test'
+            id: 1,
+            name: 'test'
         }];
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();
@@ -74,22 +74,22 @@ describe('cron', function () {
 
         var scheduler = new Scheduler(internals.defaults);
         var jobs = [
-           {
-               id: 1,
-               name: 'schedule',
-               schedule: {
-                   type: 'cron',
-                   pattern: '* * * * * *'
-               }
-           },
-           {
-               id: 2,
-               name: 'schedule',
-               schedule: {
-                   type: 'cron',
-                   pattern: '* * * * * *'
-               }
-           }
+            {
+                id: 1,
+                name: 'schedule',
+                schedule: {
+                    type: 'cron',
+                    pattern: '* * * * * *'
+                }
+            },
+            {
+                id: 2,
+                name: 'schedule',
+                schedule: {
+                    type: 'cron',
+                    pattern: '* * * * * *'
+                }
+            }
         ];
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();
@@ -132,12 +132,12 @@ describe('cron', function () {
 
         var scheduler = new Scheduler(internals.defaults);
         var jobs = [{
-           id: 1,
-           name: 'schedule',
-           schedule: {
-               type: 'cron',
-               pattern: '* * * * * *'
-           }
+            id: 1,
+            name: 'schedule',
+            schedule: {
+                type: 'cron',
+                pattern: '* * * * * *'
+            }
         }];
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();
@@ -158,12 +158,12 @@ describe('cron', function () {
         };
         var scheduler = new Scheduler(internals.defaults);
         var jobs = [{
-           id: 1,
-           name: 'schedule',
-           schedule: {
-               type: 'cron',
-               pattern: '* * * * * *'
-           }
+            id: 1,
+            name: 'schedule',
+            schedule: {
+                type: 'cron',
+                pattern: '* * * * * *'
+            }
         }];
         scheduler.startScheduler(jobs);
         var schedules = scheduler.getJobs();

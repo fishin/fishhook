@@ -148,12 +148,16 @@ describe('cron', function () {
         done();
     });
 
-    it('startSchedule startJob', function (done) {
+    it('startSchedule startJob noprs', function (done) {
 
         internals.defaults = {
             startJob: function (jobId) {
 
                 console.log('simulating startJob for ' + jobId);
+            },
+            getPullRequests: function (jobId, token, callback) {
+
+                return callback([]);
             }
         };
         var scheduler = new Scheduler(internals.defaults);
@@ -171,11 +175,98 @@ describe('cron', function () {
         var intervalObj = setInterval(function () {
 
             var log = console.log;
-
             console.log = function (value) {
 
-                console.log = log;
                 clearInterval(intervalObj);
+                console.log = log;
+                expect(value).to.equal('simulating startJob for 1');
+                scheduler.stopScheduler();
+                schedules = scheduler.getJobs();
+                expect(schedules.length).to.equal(0);
+                done();
+            };
+        }, 1000);
+    });
+
+    it('startSchedule startJob prs noruns', function (done) {
+
+        internals.defaults = {
+            startJob: function (jobId) {
+
+                console.log('simulating startJob for ' + jobId);
+            },
+            getPullRequests: function (jobId, token, callback) {
+
+                return callback([{ number: 1 }]);
+            },
+            getRuns: function (jobId, pr) {
+
+                return [];
+            }
+        };
+        var scheduler = new Scheduler(internals.defaults);
+        var jobs = [{
+            id: 1,
+            name: 'schedule',
+            schedule: {
+                type: 'cron',
+                pattern: '* * * * * *'
+            }
+        }];
+        scheduler.startScheduler(jobs);
+        var schedules = scheduler.getJobs();
+        expect(schedules.length).to.equal(1);
+        var intervalObj2 = setInterval(function () {
+
+            var log = console.log;
+            console.log = function (value) {
+
+                clearInterval(intervalObj2);
+                console.log = log;
+                expect(value).to.equal('simulating startJob for 1');
+                scheduler.stopScheduler();
+                schedules = scheduler.getJobs();
+                expect(schedules.length).to.equal(0);
+                done();
+            };
+        }, 1000);
+    });
+
+    it('startSchedule startJob prs run', function (done) {
+
+        internals.defaults = {
+            startJob: function (jobId) {
+
+                console.log('simulating startJob for ' + jobId);
+            },
+            getPullRequests: function (jobId, token, callback) {
+
+                return callback([{ number: 1 }]);
+            },
+            getRuns: function (jobId, pr) {
+
+                return [{ runId: 1 }];
+            }
+        };
+        var scheduler = new Scheduler(internals.defaults);
+        var jobs = [{
+            id: 1,
+            name: 'schedule',
+            schedule: {
+                type: 'cron',
+                pattern: '* * * * * *'
+            }
+        }];
+        scheduler.startScheduler(jobs);
+        var schedules = scheduler.getJobs();
+        expect(schedules.length).to.equal(1);
+        var intervalObj3 = setInterval(function () {
+
+            var log = console.log;
+            console.log = function (value) {
+
+                clearInterval(intervalObj3);
+                console.log = log;
                 expect(value).to.equal('simulating startJob for 1');
                 scheduler.stopScheduler();
                 schedules = scheduler.getJobs();

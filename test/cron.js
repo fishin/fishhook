@@ -155,7 +155,7 @@ describe('cron', function () {
 
                 console.log('simulating startJob for ' + jobId);
             },
-            getPullRequests: function (jobId, token, callback) {
+            getPullRequests: function (jobId, callback) {
 
                 return callback([]);
             }

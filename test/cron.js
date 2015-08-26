@@ -208,6 +208,9 @@ describe('cron', function () {
         var jobs = [{
             id: 1,
             name: 'schedule',
+            scm: {
+                prs: true
+            },
             schedule: {
                 type: 'cron',
                 pattern: '* * * * * *'
@@ -252,6 +255,9 @@ describe('cron', function () {
         var jobs = [{
             id: 1,
             name: 'schedule',
+            scm: {
+                prs: true
+            },
             schedule: {
                 type: 'cron',
                 pattern: '* * * * * *'

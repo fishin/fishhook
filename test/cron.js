@@ -151,9 +151,10 @@ describe('cron', function () {
     it('startSchedule startJob noprs', function (done) {
 
         internals.defaults = {
-            startJob: function (jobId) {
+            startJob: function (jobId, pr, callback) {
 
                 console.log('simulating startJob for ' + jobId);
+                return callback();
             },
             getPullRequests: function (jobId, callback) {
 
@@ -190,14 +191,20 @@ describe('cron', function () {
 
     it('startSchedule startJob prs noruns', function (done) {
 
+        var prs = [
+            {
+                number: 1
+            }
+        ];
         internals.defaults = {
-            startJob: function (jobId) {
+            startJob: function (jobId, pr, callback) {
 
                 console.log('simulating startJob for ' + jobId);
+                return callback();
             },
             getPullRequests: function (jobId, token, callback) {
 
-                return callback([{ number: 1 }]);
+                return callback(prs);
             },
             getRuns: function (jobId, pr) {
 
@@ -237,14 +244,20 @@ describe('cron', function () {
 
     it('startSchedule startJob prs run', function (done) {
 
+        var prs = [
+            {
+                number: 1
+            }
+        ];
         internals.defaults = {
-            startJob: function (jobId) {
+            startJob: function (jobId, pr, callback) {
 
                 console.log('simulating startJob for ' + jobId);
+                return callback();
             },
             getPullRequests: function (jobId, token, callback) {
 
-                return callback([{ number: 1 }]);
+                return callback(prs);
             },
             getRuns: function (jobId, pr) {
 
@@ -273,7 +286,6 @@ describe('cron', function () {
 
                 clearInterval(intervalObj3);
                 console.log = log;
-                expect(value).to.equal('simulating startJob for 1');
                 scheduler.stopScheduler();
                 schedules = scheduler.getJobs();
                 expect(schedules.length).to.equal(0);

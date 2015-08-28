@@ -148,13 +148,12 @@ describe('cron', function () {
         done();
     });
 
-    it('startSchedule startJob noprs', function (done) {
+    it('startSchedule addJob noprs', function (done) {
 
         internals.defaults = {
-            startJob: function (jobId, pr, callback) {
+            addJob: function (jobId, pr) {
 
-                console.log('simulating startJob for ' + jobId);
-                return callback();
+                console.log('simulating addJob for ' + jobId);
             },
             getPullRequests: function (jobId, callback) {
 
@@ -180,7 +179,7 @@ describe('cron', function () {
 
                 clearInterval(intervalObj);
                 console.log = log;
-                expect(value).to.equal('simulating startJob for 1');
+                expect(value).to.equal('simulating addJob for 1');
                 scheduler.stopScheduler();
                 schedules = scheduler.getJobs();
                 expect(schedules.length).to.equal(0);
@@ -189,7 +188,7 @@ describe('cron', function () {
         }, 1000);
     });
 
-    it('startSchedule startJob prs noruns', function (done) {
+    it('startSchedule addJob prs noruns', function (done) {
 
         var prs = [
             {
@@ -197,10 +196,9 @@ describe('cron', function () {
             }
         ];
         internals.defaults = {
-            startJob: function (jobId, pr, callback) {
+            addJob: function (jobId, pr) {
 
-                console.log('simulating startJob for ' + jobId);
-                return callback();
+                console.log('simulating addJob for ' + jobId);
             },
             getPullRequests: function (jobId, token, callback) {
 
@@ -233,7 +231,7 @@ describe('cron', function () {
 
                 clearInterval(intervalObj2);
                 console.log = log;
-                expect(value).to.equal('simulating startJob for 1');
+                expect(value).to.equal('simulating addJob for 1');
                 scheduler.stopScheduler();
                 schedules = scheduler.getJobs();
                 expect(schedules.length).to.equal(0);
@@ -242,7 +240,7 @@ describe('cron', function () {
         }, 1000);
     });
 
-    it('startSchedule startJob prs run', function (done) {
+    it('startSchedule addJob prs run', function (done) {
 
         var prs = [
             {
@@ -250,10 +248,9 @@ describe('cron', function () {
             }
         ];
         internals.defaults = {
-            startJob: function (jobId, pr, callback) {
+            addJob: function (jobId, pr) {
 
-                console.log('simulating startJob for ' + jobId);
-                return callback();
+                console.log('simulating addJob for ' + jobId);
             },
             getPullRequests: function (jobId, token, callback) {
 

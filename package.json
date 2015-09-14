@@ -1,6 +1,6 @@
 {
   "name": "fishhook",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "scheduler utilities for ficion",
   "main": "lib/index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/fishin/fishhook"
   },
   "engines": {
-    "node": ">=0.10.x"
+    "node": ">4"
   },
   "scripts": {
     "clean": "rm -rf node_modules",

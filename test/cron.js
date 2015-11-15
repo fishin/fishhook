@@ -1,9 +1,11 @@
-var Code = require('code');
-var Lab = require('lab');
+'use strict';
 
-var Scheduler = require('../lib/index');
+const Code = require('code');
+const Lab = require('lab');
 
-var internals = {
+const Scheduler = require('../lib/index');
+
+const internals = {
     defaults: {
         dirPath: '/tmp/testfishhook',
         tacklebox: {
@@ -14,66 +16,66 @@ var internals = {
     }
 };
 
-var lab = exports.lab = Lab.script();
-var expect = Code.expect;
-var describe = lab.describe;
-var it = lab.it;
+const lab = exports.lab = Lab.script();
+const expect = Code.expect;
+const describe = lab.describe;
+const it = lab.it;
 
-describe('cron', function () {
+describe('cron', () => {
 
-    it('startScheduler empty', function (done) {
+    it('startScheduler empty', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
+        const scheduler = new Scheduler(internals.defaults);
         scheduler.startScheduler();
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         done();
     });
 
-    it('getSchedule invalid', function (done) {
+    it('getSchedule invalid', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var schedule = scheduler.getSchedule('none');
+        const scheduler = new Scheduler(internals.defaults);
+        const schedule = scheduler.getSchedule('none');
         expect(schedule).to.not.exist();
         done();
     });
 
-    it('stopSchedule empty', function (done) {
+    it('stopSchedule empty', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
+        const scheduler = new Scheduler(internals.defaults);
         scheduler.stopSchedule(1);
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         done();
     });
 
-    it('stopScheduler empty', function (done) {
+    it('stopScheduler empty', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
+        const scheduler = new Scheduler(internals.defaults);
         scheduler.stopScheduler();
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         done();
     });
 
-    it('startScheduler noschedule', function (done) {
+    it('startScheduler noschedule', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [{
             id: 1,
             name: 'test'
         }];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(0);
         scheduler.stopScheduler();
         done();
     });
 
-    it('startScheduler schedule', function (done) {
+    it('startScheduler schedule', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [
             {
                 id: 1,
                 name: 'schedule',
@@ -92,32 +94,32 @@ describe('cron', function () {
             }
         ];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(2);
         done();
     });
 
-    it('getSchedule schedule', function (done) {
+    it('getSchedule schedule', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var schedule = scheduler.getSchedule(1);
+        const scheduler = new Scheduler(internals.defaults);
+        const schedule = scheduler.getSchedule(1);
         expect(schedule.cronTime.source).to.equal('* * * * * *');
         done();
     });
 
-    it('stopSchedule invalid', function (done) {
+    it('stopSchedule invalid', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
+        const scheduler = new Scheduler(internals.defaults);
         scheduler.stopSchedule(3);
-        var schedules = scheduler.getJobs();
+        const schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(2);
         done();
     });
 
-    it('stopSchedule schedule', function (done) {
+    it('stopSchedule schedule', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var schedules = scheduler.getJobs();
+        const scheduler = new Scheduler(internals.defaults);
+        let schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(2);
         scheduler.stopSchedule(2);
         schedules = scheduler.getJobs();
@@ -128,10 +130,10 @@ describe('cron', function () {
         done();
     });
 
-    it('stopScheduler schedule', function (done) {
+    it('stopScheduler schedule', (done) => {
 
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [{
             id: 1,
             name: 'schedule',
             schedule: {
@@ -140,7 +142,7 @@ describe('cron', function () {
             }
         }];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        let schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
         scheduler.stopScheduler();
         schedules = scheduler.getJobs();
@@ -148,7 +150,7 @@ describe('cron', function () {
         done();
     });
 
-    it('startSchedule addJob noprs', function (done) {
+    it('startSchedule addJob noprs', (done) => {
 
         internals.defaults = {
             addJob: function (jobId, pr) {
@@ -160,8 +162,8 @@ describe('cron', function () {
                 return callback([]);
             }
         };
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [{
             id: 1,
             name: 'schedule',
             schedule: {
@@ -170,11 +172,11 @@ describe('cron', function () {
             }
         }];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        let schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
-        var intervalObj = setInterval(function () {
+        const intervalObj = setInterval(() => {
 
-            var log = console.log;
+            const log = console.log;
             console.log = function (value) {
 
                 clearInterval(intervalObj);
@@ -188,9 +190,9 @@ describe('cron', function () {
         }, 1000);
     });
 
-    it('startSchedule addJob prs noruns', function (done) {
+    it('startSchedule addJob prs noruns', (done) => {
 
-        var prs = [
+        const prs = [
             {
                 number: 1
             }
@@ -209,8 +211,8 @@ describe('cron', function () {
                 return [];
             }
         };
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [{
             id: 1,
             name: 'schedule',
             scm: {
@@ -222,11 +224,11 @@ describe('cron', function () {
             }
         }];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        let schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
-        var intervalObj2 = setInterval(function () {
+        const intervalObj2 = setInterval(() => {
 
-            var log = console.log;
+            const log = console.log;
             console.log = function (value) {
 
                 clearInterval(intervalObj2);
@@ -240,9 +242,9 @@ describe('cron', function () {
         }, 1000);
     });
 
-    it('startSchedule addJob prs run', function (done) {
+    it('startSchedule addJob prs run', (done) => {
 
-        var prs = [
+        const prs = [
             {
                 number: 1
             }
@@ -261,8 +263,8 @@ describe('cron', function () {
                 return [{ runId: 1 }];
             }
         };
-        var scheduler = new Scheduler(internals.defaults);
-        var jobs = [{
+        const scheduler = new Scheduler(internals.defaults);
+        const jobs = [{
             id: 1,
             name: 'schedule',
             scm: {
@@ -274,11 +276,11 @@ describe('cron', function () {
             }
         }];
         scheduler.startScheduler(jobs);
-        var schedules = scheduler.getJobs();
+        let schedules = scheduler.getJobs();
         expect(schedules.length).to.equal(1);
-        var intervalObj3 = setInterval(function () {
+        const intervalObj3 = setInterval(() => {
 
-            var log = console.log;
+            const log = console.log;
             console.log = function (value) {
 
                 clearInterval(intervalObj3);
